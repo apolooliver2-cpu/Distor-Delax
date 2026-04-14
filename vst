@@ -1,0 +1,17 @@
+name: Build VST3
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { submodules: recursive }
+      - name: Build
+        run: |
+          cmake -B build -D JUCE_BUILD_HELPER=ON
+          cmake --build build --config Release
+      - name: Upload VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: DistorcaoDelax-VST3
+          path: build/DistorcaoDelax_artefacts/Release/VST3/
